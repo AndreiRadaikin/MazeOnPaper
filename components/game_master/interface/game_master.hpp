@@ -10,9 +10,9 @@
 
 #include <memory>
 #include "player.hpp"
-#include "direction.hpp"
 #include "action_request.hpp"
 #include "interaction_request.hpp"
+#include "step_request.hpp"
 #include "action_response.hpp"
 #include "interaction_response.hpp"
 #include "step_response.hpp"
@@ -35,10 +35,10 @@ public:
 
     /*!
      * \brief Step request
-     * \param direction The direction in which the player wants to make a move
+     * \param request Step request
      * \return Step Response
      */
-    virtual Response::StepResponsePtr MakeStep(Direction::Direction direction) = 0;
+    virtual Response::StepResponsePtr MakeStep(Request::StepRequest Request) = 0;
 
     /*!
      * \brief Reports that the player has completed the game
@@ -66,4 +66,5 @@ public:
     virtual bool CheckGold() const = 0;
 };
 
+typedef std::shared_ptr<GameMaster> GameMasterPtr;
 } // GameMaster
