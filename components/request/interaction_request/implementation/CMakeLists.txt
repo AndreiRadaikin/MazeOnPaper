@@ -3,7 +3,7 @@ message(STATUS "implementation")
 project(InteractionRequestImpl)
 
 add_library(${PROJECT_NAME} STATIC)
-add_library(InteractionRequest::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+add_library(${INTERFACE_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
 target_sources(${PROJECT_NAME}
                PRIVATE "${CMAKE_CURRENT_LIST_DIR}/src/interaction_request_impl.cpp")

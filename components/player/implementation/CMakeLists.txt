@@ -1,9 +1,9 @@
 message(STATUS "implementation")
 
-project(PlayerRequestImpl)
+project(PlayerImpl)
 
 add_library(${PROJECT_NAME} STATIC)
-add_library(PlayerRequest::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+add_library(${INTERFACE_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
 target_sources(${PROJECT_NAME}
                PRIVATE "${CMAKE_CURRENT_LIST_DIR}/src/player_impl.cpp")
