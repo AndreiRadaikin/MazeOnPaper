@@ -3,6 +3,6 @@
 #include <memory>
 
 namespace Response {
-class InteractionResponse;
+class InteractionResponse {};
 typedef std::shared_ptr<InteractionResponse> InteractionResponsePtr;
 } // Response
