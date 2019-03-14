@@ -11,4 +11,4 @@ target_sources(${PROJECT_NAME}
 target_include_directories(${PROJECT_NAME}
                PUBLIC "${CMAKE_CURRENT_LIST_DIR}/include")
 
-target_link_libraries(${PROJECT_NAME} PRIVATE InteractionRequest::interface)
+target_link_libraries(${PROJECT_NAME} PUBLIC InteractionRequest::interface)

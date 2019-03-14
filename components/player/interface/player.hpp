@@ -9,8 +9,16 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 
 namespace Player {
-class Player {};
+class Player {
+public:
+    virtual ~Player(){}
+    virtual size_t Name() const = 0;
+    virtual void GameStartedNotify() = 0;
+    virtual void YourMove() = 0;
+};
 typedef std::shared_ptr<Player> PlayerPtr;
+typedef std::vector<PlayerPtr> PlayersArray;
 } // Player

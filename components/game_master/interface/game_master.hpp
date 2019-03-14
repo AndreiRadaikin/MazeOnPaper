@@ -38,12 +38,12 @@ public:
      * \param request Step request
      * \return Step Response
      */
-    virtual Response::StepResponsePtr MakeStep(Request::StepRequest Request) = 0;
+    virtual Response::StepResponsePtr MakeStep(Request::StepRequestConstPtr request) = 0;
 
     /*!
      * \brief Reports that the player has completed the game
      */
-    virtual void Finalize() = 0;
+    virtual void Finalize(size_t name) = 0;
 
     /*!
      * \brief Action request
