@@ -1,0 +1,2 @@
+project(InteractionNotification)
+MakeInterfaseStructure()
