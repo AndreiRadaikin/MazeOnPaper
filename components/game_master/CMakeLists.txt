@@ -1,7 +1,13 @@
 message(STATUS "game_master")
 project(GameMaster)
 
-include(${CmakeHelpers}/default_component_structure.cmake)
+add_library(${PROJECT_NAME} INTERFACE)
+add_library(${PROJECT_NAME}::interface ALIAS ${PROJECT_NAME})
+
+target_include_directories(${PROJECT_NAME}
+        INTERFACE "${CMAKE_CURRENT_LIST_DIR}/interface")
+
+add_subdirectory(implementation)
 target_link_libraries(${PROJECT_NAME}
             INTERFACE   Player::interface
                         ActionRequest::interface
