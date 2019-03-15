@@ -1,0 +1,4 @@
+add_subdirectory(action_notification)
+add_subdirectory(endgame_notification)
+add_subdirectory(interaction_notification)
+add_subdirectory(step_notification)
