@@ -1,6 +1,8 @@
 #include "player_ui.hpp"
 #include "QVBoxLayout"
 #include <iostream>
+#include "step_request_impl.hpp"
+#include "step_response.hpp"
 namespace Player {
 
 size_t Player::counter_;
@@ -36,25 +38,77 @@ void PlayerUi::YourMove() {
 
 void PlayerUi::SwipeUp(){
     std::cout << "Up" << std::endl;
-    map_->moveWanderer(Point::Point(0, -1));
+    Response::StepResponsePtr responce =
+            master_->MakeStep(Request::MakeStepRequestImpl(name_, Direction::Direction::UP));
+    auto result = responce->GetResult();
+    switch (result) {
+        case StepResult::Result::SUCCESS:
+            map_->setUpCapability(map_->getPosition(), Square::Capability::YES);
+            map_->moveWanderer(Point::Point(0, -1));
+        break;
+        case StepResult::Result::WALL:
+            map_->setUpCapability(map_->getPosition(), Square::Capability::NO);
+        break;
+    default:
+        return;
+    }
     map_->update();
 }
 
 void PlayerUi::SwipeDpwn(){
     std::cout << "Down" << std::endl;
-    map_->moveWanderer(Point::Point(0, 1));
+    Response::StepResponsePtr responce =
+            master_->MakeStep(Request::MakeStepRequestImpl(name_, Direction::Direction::DOWN));
+    auto result = responce->GetResult();
+    switch (result) {
+        case StepResult::Result::SUCCESS:
+            map_->setDownCapability(map_->getPosition(), Square::Capability::YES);
+            map_->moveWanderer(Point::Point(0, 1));
+        break;
+        case StepResult::Result::WALL:
+            map_->setDownCapability(map_->getPosition(), Square::Capability::NO);
+        break;
+    default:
+        return;
+    }
     map_->update();
 }
 
 void PlayerUi::SwipeLeft(){
     std::cout << "Left" << std::endl;
-    map_->moveWanderer(Point::Point(-1, 0));
+    Response::StepResponsePtr responce =
+            master_->MakeStep(Request::MakeStepRequestImpl(name_, Direction::Direction::LEFT));
+    auto result = responce->GetResult();
+    switch (result) {
+        case StepResult::Result::SUCCESS:
+            map_->setLeftCapability(map_->getPosition(), Square::Capability::YES);
+            map_->moveWanderer(Point::Point(-1, 0));
+        break;
+        case StepResult::Result::WALL:
+            map_->setLeftCapability(map_->getPosition(), Square::Capability::NO);
+        break;
+    default:
+        return;
+    }
     map_->update();
 }
 
 void PlayerUi::SwipeRight(){
     std::cout << "Right" << std::endl;
-    map_->moveWanderer(Point::Point(1, 0));
+    Response::StepResponsePtr responce =
+            master_->MakeStep(Request::MakeStepRequestImpl(name_, Direction::Direction::RIGHT));
+    auto result = responce->GetResult();
+    switch (result) {
+        case StepResult::Result::SUCCESS:
+            map_->setRightCapability(map_->getPosition(), Square::Capability::YES);
+            map_->moveWanderer(Point::Point(1, 0));
+        break;
+        case StepResult::Result::WALL:
+            map_->setRightCapability(map_->getPosition(), Square::Capability::NO);
+        break;
+    default:
+        return;
+    }
     map_->update();
 }
 
@@ -77,6 +131,7 @@ void PlayerUi::keyPressEvent(QKeyEvent *event){
     default:
         std::cout << "Non" << std::endl;
     }
+    Tap();
 }
 
 }

@@ -8,7 +8,7 @@ namespace Response {
 class StepResponseImpl: public StepResponse {
 public:
     StepResponseImpl(StepResult::Result result, FieldType::Type type);
-
+    virtual StepResult::Result GetResult() const;
 private:
     const StepResult::Result result_;
     const FieldType::Type type_;

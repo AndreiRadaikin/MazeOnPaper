@@ -1,5 +1,6 @@
 #pragma once
-#include <qt5/QtWidgets/QWidget>
+#include <functional>
+#include <QWidget>
 #include <QKeyEvent>
 #include "map.hpp"
 #include "player.hpp"
@@ -17,7 +18,6 @@ private:
     virtual size_t Name() const override;
     virtual void GameStartedNotify() override;
     virtual void YourMove() override;
-
     void SwipeUp();
     void SwipeDpwn();
     void SwipeLeft();

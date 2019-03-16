@@ -6,9 +6,12 @@ StepResponsePtr MakeStepResponseImpl(StepResult::Result result, FieldType::Type 
     return std::make_shared<StepResponseImpl>(result, type);
 }
 
-StepResponseImpl::StepResponseImpl(StepResult::Result result, FieldType::Type type):result_(result), type_(type)
-{
+StepResponseImpl::StepResponseImpl(StepResult::Result result, FieldType::Type type):result_(result), type_(type) {
 
+}
+
+StepResult::Result StepResponseImpl::GetResult() const {
+    return result_;
 }
 
 } // Response

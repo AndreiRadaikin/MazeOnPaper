@@ -60,4 +60,9 @@ Point operator+(const Point &lp, const Point &rp) {
 Point operator-(const Point &lp, const Point &rp) {
     return Point(lp.x_ - rp.x_, lp.y_ - rp.y_);
 }
+
+std::ostream &operator <<(std::ostream& os, const Point &p){
+    return os << "x = " << p.x_ << " y = " << p.y_;
+}
+
 }

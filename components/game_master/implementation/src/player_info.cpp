@@ -36,10 +36,10 @@ void PlayerInfo::Move(Direction::Direction direction) {
         position_+=Point::Point(-1, 0);
         break;
     case Direction::UP:
-        position_+=Point::Point(0,1);
+        position_+=Point::Point(0, -1);
         break;
     case Direction::DOWN:
-        position_+=Point::Point(0,-1);
+        position_+=Point::Point(0, 1);
         break;
     default:
         break;

@@ -23,7 +23,9 @@ target_link_libraries(${PROJECT_NAME}
                 PRIVATE Qt5::Widgets
                         Point::Point
                         Player::interface
-                        GameMaster::GameMasterImpl)
+                        GameMaster::GameMasterImpl
+                        StepRequest::StepRequestImpl
+                        StepResponse::StepResponseImpl)
 
 install(TARGETS ${PROJECT_NAME}
 DESTINATION ${BINARY_DIR})

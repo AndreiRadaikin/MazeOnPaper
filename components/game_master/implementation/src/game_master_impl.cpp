@@ -13,7 +13,7 @@ using std::endl;
 
 typedef std::lock_guard<std::mutex> AutoLock;
 
-const size_t kMaxPlayers = 2;
+const size_t kMaxPlayers = 1;
 
 namespace GameMaster {
 GameMasterPtr MakeGameMasterImpl() {
@@ -35,6 +35,7 @@ bool GameMasterImpl::AddPlayer(Player::PlayerPtr player){
     }
      std::cout << " added" << std::endl;
     players_info_[player->Name()] = PlayerInfo::PlayerInfo(player->Name());
+    players_info_[player->Name()].SetPosition(Point::Point(1,1));
     players_.push_back(player);
     if(players_.size() == max_players_){
         StartGame();

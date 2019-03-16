@@ -32,6 +32,12 @@ public:
     virtual void paintEvent(QPaintEvent *e);
     void moveWanderer(Point::Point v);
     void setCapability(Point::Point point, Square::SquareInfo info);
+    void setUpCapability(Point::Point point, Square::Capability capability);
+    void setDownCapability(Point::Point point, Square::Capability capability);
+    void setLeftCapability(Point::Point point, Square::Capability capability);
+    void setRightCapability(Point::Point point, Square::Capability capability);
+
+    Point::Point getPosition();
 private:
     Point::Point GetOrigin() const;
     Point::Point WandererCenter() const;
@@ -41,7 +47,7 @@ private:
     const int square_h_;
     int kh;
     int kw;
-
+    Point::Point shift_;
     std::map<Point::Point, Square::SquareInfo> map_;
     Point::Point wanderer_;
 };

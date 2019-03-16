@@ -5,7 +5,7 @@
 #include <iostream>
 namespace Map {
 
-std::map<Square::Capability, QPen> kPenMap={
+std::map<Square::Capability, QPen> kPenMap = {
     {Square::Capability::NO, QPen(Qt::black)},
     {Square::Capability::YES, QPen({0, 0, 0, 0})},
     {Square::Capability::UNKNOWN, QPen({0,0,255, 50})},
@@ -23,10 +23,6 @@ Map::Map(QWidget *parent):QWidget(parent),square_w_(30),square_h_(30){
     kh = 12;
     kw = 12;
     this->setFixedSize(kw*square_w_ + 1, kh*square_h_+ 1);
-
-    using namespace Square;
-    setCapability(Point::Point(0, 0), SquareInfo(Capability::YES,Capability::NO,Capability::NO,Capability::NO));
-
 }
 
 Map::~Map()
@@ -46,6 +42,26 @@ void Map::paintEvent(QPaintEvent *e) {
 
 void Map::moveWanderer(Point::Point v){
     wanderer_ += v;
+    auto& wy = wanderer_.y_;
+    auto& sy = shift_.y_;
+    int k = kh/2 - 3;
+    if(wy > k) {
+        sy = wy - k;
+    } else if(wy < k * -1) {
+        sy = wy + k;
+    }
+    else sy = 0;
+
+    k = kw/2 - 3;
+    auto& wx = wanderer_.x_;
+    auto& sx = shift_.x_;
+    if(wx > k){
+        sx = wx - k;
+    } else if(wx < k * -1){
+        sx = wx + k;
+    }
+    else sx = 0;
+
 }
 
 Point::Point Map::GetOrigin() const {
@@ -54,7 +70,8 @@ Point::Point Map::GetOrigin() const {
 }
 
 Point::Point Map::WandererCenter() const {
-    auto w_poz = Point::Point(wanderer_.x_*square_w_, wanderer_.y_*square_h_);
+    auto rpos = wanderer_ - shift_;
+    auto w_poz = Point::Point(rpos.x_*square_w_, rpos.y_*square_h_);
     if(!(kw%2))
         w_poz.x_+=square_w_/2;
 
@@ -69,6 +86,8 @@ void Map::drawMaze(QPainter &painter){
             Point::Point position = Point::Point(x,y) - GetOrigin();
             position.x_/=square_w_;
             position.y_/=square_h_;
+            std::cout << shift_ << std::endl;
+            position += shift_;
             if(map_.find(position) != map_.end()){
                 drawSquare(painter, x,y, map_[position]);
             } else {
@@ -103,6 +122,34 @@ void Map::setCapability(Point::Point point, Square::SquareInfo info){
     map_[point + Point(0, -1)].passDown = info.passUp;
     map_[point + Point(1, 0)].passLeft = info.passRight;
     map_[point + Point(-1, 0)].passRight = info.passLeft;
+}
+
+void Map::setUpCapability(Point::Point point, Square::Capability capability){
+    Square::SquareInfo info = map_[point];
+    info.passUp = capability;
+    setCapability(point, info);
+}
+
+void Map::setDownCapability(Point::Point point, Square::Capability capability){
+    Square::SquareInfo info = map_[point];
+    info.passDown = capability;
+    setCapability(point, info);
+}
+
+void Map::setLeftCapability(Point::Point point, Square::Capability capability){
+    Square::SquareInfo info = map_[point];
+    info.passLeft = capability;
+    setCapability(point, info);
+}
+
+void Map::setRightCapability(Point::Point point, Square::Capability capability){
+    Square::SquareInfo info = map_[point];
+    info.passRight = capability;
+    setCapability(point, info);
+}
+
+Point::Point Map::getPosition(){
+    return  wanderer_;
 }
 
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <utility>
+#include <ostream>
 
 namespace Point {
 struct Point {
@@ -21,8 +22,10 @@ struct Point {
     bool operator >= (const Point &p) const;
     bool operator < (const Point &p) const;
     bool operator <= (const Point &p) const;
+
 };
 
+std::ostream &operator << (std::ostream& os,  const Point& p);
 Point operator + (const Point &lp, const Point &rp);
 Point operator - (const Point &lp, const Point &rp);
 }
