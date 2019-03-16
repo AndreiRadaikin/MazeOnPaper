@@ -11,6 +11,12 @@ PlayerUi::PlayerUi(QWidget *parent):QWidget(parent), name_(++Player::counter_), 
     this->setLayout(layout);
     map_= new Map::Map(this);
     layout->addWidget(map_);
+
+    QPalette Pal(palette());
+    Pal.setColor(QPalette::Background, Qt::white);
+    this->setAutoFillBackground(true);
+    this->setPalette(Pal);
+
 }
 
 void PlayerUi::SetMaster(GameMaster::GameMasterPtr master){
@@ -29,6 +35,11 @@ void PlayerUi::GameStartedNotify() {
 }
 
 void PlayerUi::YourMove() {
+    QPalette Pal(palette());
+    Pal.setColor(QPalette::Background, Qt::green);
+    this->setAutoFillBackground(true);
+    this->setPalette(Pal);
+
     this->activateWindow();
     can_step_ = true;
 }
@@ -41,6 +52,7 @@ void PlayerUi::SwipeUp(){
         case StepResult::Result::SUCCESS:
             map_->setUpCapability(map_->getPosition(), Square::Capability::YES);
             map_->moveWanderer(Point::Point(0, -1));
+            Tap();
         break;
         case StepResult::Result::WALL:
             map_->setUpCapability(map_->getPosition(), Square::Capability::NO);
@@ -59,6 +71,7 @@ void PlayerUi::SwipeDpwn(){
         case StepResult::Result::SUCCESS:
             map_->setDownCapability(map_->getPosition(), Square::Capability::YES);
             map_->moveWanderer(Point::Point(0, 1));
+            Tap();
         break;
         case StepResult::Result::WALL:
             map_->setDownCapability(map_->getPosition(), Square::Capability::NO);
@@ -77,6 +90,7 @@ void PlayerUi::SwipeLeft(){
         case StepResult::Result::SUCCESS:
             map_->setLeftCapability(map_->getPosition(), Square::Capability::YES);
             map_->moveWanderer(Point::Point(-1, 0));
+            Tap();
         break;
         case StepResult::Result::WALL:
             map_->setLeftCapability(map_->getPosition(), Square::Capability::NO);
@@ -95,6 +109,7 @@ void PlayerUi::SwipeRight(){
         case StepResult::Result::SUCCESS:
             map_->setRightCapability(map_->getPosition(), Square::Capability::YES);
             map_->moveWanderer(Point::Point(1, 0));
+            Tap();
         break;
         case StepResult::Result::WALL:
             map_->setRightCapability(map_->getPosition(), Square::Capability::NO);
@@ -107,6 +122,11 @@ void PlayerUi::SwipeRight(){
 
 void PlayerUi::Tap(){
     can_step_ = false;
+    QPalette Pal(palette());
+    Pal.setColor(QPalette::Background, Qt::white);
+    this->setAutoFillBackground(true);
+    this->setPalette(Pal);
+
     master_->Finalize(name_ );
     map_->update();
 }
@@ -123,7 +143,6 @@ void PlayerUi::keyPressEvent(QKeyEvent *event){
     default:
         break;
     }
-    Tap();
 }
 
 }

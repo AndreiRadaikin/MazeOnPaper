@@ -10,7 +10,7 @@
 
 typedef std::lock_guard<std::mutex> AutoLock;
 
-const size_t kMaxPlayers = 1;
+const size_t kMaxPlayers = 2;
 
 namespace GameMaster {
 GameMasterPtr MakeGameMasterImpl() {

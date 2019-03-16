@@ -16,7 +16,7 @@ Map::Map(QWidget *parent):QWidget(parent),square_w_(30),square_h_(30){
 
     // set background color
     QPalette Pal(palette());
-    Pal.setColor(QPalette::Background, {141, 153, 204, 150});
+    Pal.setColor(QPalette::Background, {141, 153, 204, 175});
     this->setAutoFillBackground(true);
     this->setPalette(Pal);
     kh = 12;
