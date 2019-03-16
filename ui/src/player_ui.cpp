@@ -30,6 +30,7 @@ void PlayerUi::GameStartedNotify() {
 
 void PlayerUi::YourMove() {
     std::cout << name_ << " YourMove()" << std::endl;
+    this->activateWindow();
     can_step_ = true;
 }
 
