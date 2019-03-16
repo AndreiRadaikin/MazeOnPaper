@@ -28,9 +28,12 @@ GameMasterImpl::~GameMasterImpl(){
 
 bool GameMasterImpl::AddPlayer(Player::PlayerPtr player){
     AutoLock auto_lock(protection_of_master_);
+    std::cout << "Player " << player->Name();
     if(players_.size() >= max_players_){
+        std::cout << " ignored" << std::endl;
         return false;
     }
+     std::cout << " added" << std::endl;
     players_info_[player->Name()] = PlayerInfo::PlayerInfo(player->Name());
     players_.push_back(player);
     if(players_.size() == max_players_){
@@ -56,9 +59,12 @@ Response::StepResponsePtr GameMasterImpl::MakeStep(Request::StepRequestConstPtr 
 void GameMasterImpl::Finalize(size_t name){
     AutoLock auto_lock(protection_of_master_);
     if(!IsCurrentPlayer(name)){
+        std::cout << "Finalize " << name << " ignored" << std::endl;
         return;
     };
-    current_players_name_ = players_[++current_players_numper_%players_.size()]->Name();
+    std::cout << "Finalize " << name << " finalized" << std::endl;
+    ++current_players_numper_%=players_.size();
+    current_players_name_ = players_[current_players_numper_]->Name();
     players_[current_players_numper_]->YourMove();
     step_maked_ = false;
     action_ = false;
@@ -88,7 +94,7 @@ void GameMasterImpl::StartGame() {
 }
 
 bool GameMasterImpl::IsCurrentPlayer(size_t name){
-    return name = current_players_name_;
+    return name == current_players_name_;
 }
 
 } //GameMaster

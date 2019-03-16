@@ -7,3 +7,4 @@ set(CmakeHelpers ${CMAKE_CURRENT_SOURCE_DIR}/cmake_helpers)
 include(${CmakeHelpers}/default_component_structure.cmake)
 
 add_subdirectory(components)
+add_subdirectory(ui)

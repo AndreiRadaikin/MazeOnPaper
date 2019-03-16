@@ -18,6 +18,9 @@ public:
     virtual size_t Name() const = 0;
     virtual void GameStartedNotify() = 0;
     virtual void YourMove() = 0;
+
+protected:
+    static size_t counter_;
 };
 typedef std::shared_ptr<Player> PlayerPtr;
 typedef std::vector<PlayerPtr> PlayersArray;

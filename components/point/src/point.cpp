@@ -6,9 +6,9 @@ Point::Point():x_(0), y_(0) {}
 
 Point::Point(const Point &p):x_(p.x_), y_(p.y_){}
 
-Point::Point(long long x, long long y): x_(x), y_(y) {}
+Point::Point(int x, int y): x_(x), y_(y) {}
 
-Point::Point(std::pair<long long, long long> p):x_(p.first), y_(p.second){}
+Point::Point(std::pair<int, int> p):x_(p.first), y_(p.second){}
 
 Point::~Point() {}
 

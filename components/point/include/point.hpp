@@ -6,11 +6,11 @@ namespace Point {
 struct Point {
     Point();
     Point(const Point& p);
-    Point(long long x, long long y);
-    Point(std::pair<long long, long long> p);
+    Point(int x, int y);
+    Point(std::pair<int, int> p);
     ~Point();
-    long long x_;
-    long long y_;
+    int x_;
+    int y_;
 
     Point &operator = (const Point &p);
     Point &operator -= (const Point &p);

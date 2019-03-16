@@ -1,13 +1,11 @@
 #include "player_impl.hpp"
 namespace Player {
-
-size_t PlayerImpl::counter_ = 0;
-
+size_t Player::counter_;
 PlayerPtr MakePlayerImpll(){
     return std::make_shared<PlayerImpl>();
 }
 
-PlayerImpl::PlayerImpl():name_(++counter_){
+PlayerImpl::PlayerImpl():name_(++Player::counter_){
 
 }
 
