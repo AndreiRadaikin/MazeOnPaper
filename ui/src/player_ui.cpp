@@ -14,7 +14,6 @@ PlayerUi::PlayerUi(QWidget *parent):QWidget(parent), name_(++Player::counter_), 
 }
 
 void PlayerUi::SetMaster(GameMaster::GameMasterPtr master){
-    std::cout << name_ << " SetMaster(GameMaster::GameMasterPtr master)" << std::endl;
     master_ = master;
 }
 
@@ -27,17 +26,14 @@ size_t PlayerUi::Name() const {
 }
 
 void PlayerUi::GameStartedNotify() {
-    std::cout << name_ << " GameStartedNotify()" << std::endl;
 }
 
 void PlayerUi::YourMove() {
-    std::cout << name_ << " YourMove()" << std::endl;
     this->activateWindow();
     can_step_ = true;
 }
 
 void PlayerUi::SwipeUp(){
-    std::cout << "Up" << std::endl;
     Response::StepResponsePtr responce =
             master_->MakeStep(Request::MakeStepRequestImpl(name_, Direction::Direction::UP));
     auto result = responce->GetResult();
@@ -56,7 +52,6 @@ void PlayerUi::SwipeUp(){
 }
 
 void PlayerUi::SwipeDpwn(){
-    std::cout << "Down" << std::endl;
     Response::StepResponsePtr responce =
             master_->MakeStep(Request::MakeStepRequestImpl(name_, Direction::Direction::DOWN));
     auto result = responce->GetResult();
@@ -75,7 +70,6 @@ void PlayerUi::SwipeDpwn(){
 }
 
 void PlayerUi::SwipeLeft(){
-    std::cout << "Left" << std::endl;
     Response::StepResponsePtr responce =
             master_->MakeStep(Request::MakeStepRequestImpl(name_, Direction::Direction::LEFT));
     auto result = responce->GetResult();
@@ -94,7 +88,6 @@ void PlayerUi::SwipeLeft(){
 }
 
 void PlayerUi::SwipeRight(){
-    std::cout << "Right" << std::endl;
     Response::StepResponsePtr responce =
             master_->MakeStep(Request::MakeStepRequestImpl(name_, Direction::Direction::RIGHT));
     auto result = responce->GetResult();
@@ -113,7 +106,6 @@ void PlayerUi::SwipeRight(){
 }
 
 void PlayerUi::Tap(){
-    std::cout << "Tap" << std::endl;
     can_step_ = false;
     master_->Finalize(name_ );
     map_->update();
@@ -129,7 +121,7 @@ void PlayerUi::keyPressEvent(QKeyEvent *event){
     case Qt::Key::Key_Right: SwipeRight(); break;
     case Qt::Key::Key_Space: Tap(); break;
     default:
-        std::cout << "Non" << std::endl;
+        break;
     }
     Tap();
 }

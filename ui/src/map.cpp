@@ -12,7 +12,6 @@ std::map<Square::Capability, QPen> kPenMap = {
 };
 
 Map::Map(QWidget *parent):QWidget(parent),square_w_(30),square_h_(30){
-    std::cout << "Map(QWidget *parent = " << parent << " )" <<std::endl;
     this->setFixedSize(500, 500);
 
     // set background color
@@ -27,7 +26,6 @@ Map::Map(QWidget *parent):QWidget(parent),square_w_(30),square_h_(30){
 
 Map::~Map()
 {
-    std::cout << "~Map()" <<std::endl;
 }
 
 void Map::paintEvent(QPaintEvent *e) {
@@ -86,7 +84,6 @@ void Map::drawMaze(QPainter &painter){
             Point::Point position = Point::Point(x,y) - GetOrigin();
             position.x_/=square_w_;
             position.y_/=square_h_;
-            std::cout << shift_ << std::endl;
             position += shift_;
             if(map_.find(position) != map_.end()){
                 drawSquare(painter, x,y, map_[position]);

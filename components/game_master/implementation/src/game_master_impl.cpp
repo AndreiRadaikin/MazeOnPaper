@@ -1,6 +1,3 @@
-#include <iostream>
-using std::cout;
-using std::endl;
 #include "game_master_impl.hpp"
 #include "player_impl.hpp"
 #include "step_request_impl.hpp"
@@ -20,7 +17,7 @@ GameMasterPtr MakeGameMasterImpl() {
     return std::make_shared<GameMasterImpl>();
 }
 
-GameMasterImpl::GameMasterImpl(): max_players_(kMaxPlayers), current_players_numper_(0),step_maked_(false),action_(false),interaction_(false){
+GameMasterImpl::GameMasterImpl():maze_(kMaxPlayers), max_players_(kMaxPlayers), current_players_numper_(0),step_maked_(false),action_(false),interaction_(false){
 }
 
 GameMasterImpl::~GameMasterImpl(){
@@ -28,14 +25,11 @@ GameMasterImpl::~GameMasterImpl(){
 
 bool GameMasterImpl::AddPlayer(Player::PlayerPtr player){
     AutoLock auto_lock(protection_of_master_);
-    std::cout << "Player " << player->Name();
     if(players_.size() >= max_players_){
-        std::cout << " ignored" << std::endl;
         return false;
     }
-     std::cout << " added" << std::endl;
     players_info_[player->Name()] = PlayerInfo::PlayerInfo(player->Name());
-    players_info_[player->Name()].SetPosition(Point::Point(1,1));
+    players_info_[player->Name()].SetPosition(maze_.GetTeleports()[players_.size()]);
     players_.push_back(player);
     if(players_.size() == max_players_){
         StartGame();
@@ -60,10 +54,8 @@ Response::StepResponsePtr GameMasterImpl::MakeStep(Request::StepRequestConstPtr 
 void GameMasterImpl::Finalize(size_t name){
     AutoLock auto_lock(protection_of_master_);
     if(!IsCurrentPlayer(name)){
-        std::cout << "Finalize " << name << " ignored" << std::endl;
         return;
     };
-    std::cout << "Finalize " << name << " finalized" << std::endl;
     ++current_players_numper_%=players_.size();
     current_players_name_ = players_[current_players_numper_]->Name();
     players_[current_players_numper_]->YourMove();
