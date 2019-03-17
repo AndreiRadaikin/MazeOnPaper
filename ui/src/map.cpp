@@ -7,8 +7,8 @@ namespace Map {
 
 std::map<Square::Capability, QPen> kPenMap = {
     {Square::Capability::NO, QPen(Qt::black)},
-    {Square::Capability::YES, QPen({0, 0, 0, 0})},
-    {Square::Capability::UNKNOWN, QPen({0,0,255, 50})},
+    {Square::Capability::YES, QPen({0, 0, 0, 20})},
+    {Square::Capability::UNKNOWN, QPen({0,0,255, 90})},
 };
 
 Map::Map(QWidget *parent):QWidget(parent),square_w_(30),square_h_(30){
@@ -40,26 +40,26 @@ void Map::paintEvent(QPaintEvent *e) {
 
 void Map::moveWanderer(Point::Point v){
     wanderer_ += v;
-    auto& wy = wanderer_.y_;
-    auto& sy = shift_.y_;
-    int k = kh/2 - 3;
-    if(wy > k) {
-        sy = wy - k;
-    } else if(wy < k * -1) {
-        sy = wy + k;
+    int upper_line = kh/-2;
+    if(wanderer_.y_ - shift_.y_ == upper_line){
+        shift_.y_--;
     }
-    else sy = 0;
 
-    k = kw/2 - 3;
-    auto& wx = wanderer_.x_;
-    auto& sx = shift_.x_;
-    if(wx > k){
-        sx = wx - k;
-    } else if(wx < k * -1){
-        sx = wx + k;
+    int under_line =kh/2 - 1;
+    if(wanderer_.y_ - shift_.y_ == under_line){
+        shift_.y_++;
     }
-    else sx = 0;
 
+    int left_line = kw/-2;
+
+    if(wanderer_.x_ - shift_.x_ == left_line){
+        shift_.x_--;
+    }
+
+    int right_line = kw/2 - 1;
+    if(wanderer_.x_ - shift_.x_ == right_line){
+        shift_.x_++;
+    }
 }
 
 Point::Point Map::GetOrigin() const {
