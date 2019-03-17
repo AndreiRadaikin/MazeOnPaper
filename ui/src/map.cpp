@@ -19,8 +19,8 @@ Map::Map(QWidget *parent):QWidget(parent),square_w_(30),square_h_(30){
     Pal.setColor(QPalette::Background, {141, 153, 204, 175});
     this->setAutoFillBackground(true);
     this->setPalette(Pal);
-    kh = 12;
-    kw = 12;
+    kh = 11;
+    kw = 11;
     this->setFixedSize(kw*square_w_ + 1, kh*square_h_+ 1);
 }
 
@@ -79,16 +79,14 @@ Point::Point Map::WandererCenter() const {
 }
 
 void Map::drawMaze(QPainter &painter){
-    for(int y = 0; y < this->height(); y+=square_h_){
-        for(int x = 0; x < this->width(); x+=square_w_){
-            Point::Point position = Point::Point(x,y) - GetOrigin();
-            position.x_/=square_w_;
-            position.y_/=square_h_;
-            position += shift_;
+    for(int y = 0; y < kh; ++y){
+        for(int x = 0; x < kw; ++x){
+            Point::Point position = Point::Point(x,y) + shift_ - Point::Point(kw/2, kh/2);
+              Point::Point pixel = Point::Point(x * square_w_,y *square_h_);
             if(map_.find(position) != map_.end()){
-                drawSquare(painter, x,y, map_[position]);
+                drawSquare(painter, pixel.x_,pixel.y_, map_[position]);
             } else {
-                drawSquare(painter, x,y, Square::SquareInfo());
+                drawSquare(painter, pixel.x_,pixel.y_, Square::SquareInfo());
             }
         }
     }
