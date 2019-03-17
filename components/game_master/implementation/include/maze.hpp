@@ -15,11 +15,18 @@ public:
     const std::vector<Point::Point> &GetTeleports() const;
     FieldType::Type GetType(Point::Point point) const;
 private:
+    void printMaze();
     Maze();
     void GenerateExternalWalls();
     void GenerateInternalWalls();
     void GenerateMazeWalls();
     void GenerateTeleport();
+
+    void setGroup(std::vector<std::vector<size_t>>& group, size_t line,  size_t& counter);
+    void setVerticalWalls(std::vector<size_t>& group, size_t line);
+    size_t mergGroup(std::vector<size_t>& group, size_t g1, size_t g2);
+    void setHorisontalWalls(std::vector<size_t>& group, size_t line);
+    void destroyWals(std::vector<size_t>& group, size_t line);
 
     size_t V(const Point::Point &point) const;
     void SetWall(size_t from, size_t to);
