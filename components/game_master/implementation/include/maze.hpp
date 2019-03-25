@@ -4,6 +4,7 @@
 #include "point.hpp"
 #include "direction.hpp"
 #include "field_type.hpp"
+#include "recurcive_maze_generator.hpp"
 
 namespace Maze {
 
@@ -24,9 +25,9 @@ private:
 
     void setGroup(std::vector<std::vector<size_t>>& group, size_t line,  size_t& counter);
     void setVerticalWalls(std::vector<size_t>& group, size_t line);
-    size_t mergGroup(std::vector<size_t>& group, size_t g1, size_t g2);
+    size_t mergeGroup(std::vector<size_t>& group, size_t g1, size_t g2);
     void setHorisontalWalls(std::vector<size_t>& group, size_t line);
-    void destroyWals(std::vector<size_t>& group, size_t line);
+    void destroyWalls(std::vector<size_t>& group, size_t line);
 
     size_t V(const Point::Point &point) const;
     void SetWall(size_t from, size_t to);
@@ -37,6 +38,7 @@ private:
     size_t h_;
     std::vector<Point::Point> teleports_;
     std::vector<std::vector<bool>> maze_;
+    RecurciveMazeGenerator gen_;
 };
 
 

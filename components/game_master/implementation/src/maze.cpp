@@ -2,11 +2,14 @@
 #include <ctime>
 namespace Maze {
 
-Maze::Maze(size_t n): w_(10), h_(10),  maze_((h_ +5 ) *( w_ + 5), std::vector<bool>((h_ +5 ) *( w_ + 5), true)){
-    srand(time(nullptr));
-    GenerateExternalWalls();
-    GenerateInternalWalls();
-    GenerateMazeWalls();
+Maze::Maze(size_t n): w_(10), h_(10),  maze_((h_ +5 ) *( w_ + 5),
+                                             std::vector<bool>((h_ + 5 ) *( w_ + 5), true)),gen_(maze_){
+//    srand(time(nullptr));
+    gen_.gen(w_,h_,maze_);
+    std::cout << "End of maze gen" << std::endl;
+//    GenerateExternalWalls();
+//    GenerateInternalWalls();
+//    GenerateMazeWalls();
     for(size_t i = 0; i < n; ++i){
         GenerateTeleport();
     }
@@ -63,19 +66,19 @@ void Maze::printMaze(){
     std::cout << "\n=============================================================" << std::endl;
 }
 
+//void Maze::GenerateExternalWalls(){
+//    for(size_t y = 1; y < h_ + 3; ++y){
+//        SetWall(V(Point::Point(1, y)), V(Point::Point(0, y)));
+//        SetWall(V(Point::Point(w_ + 3, y)), V(Point::Point(w_ + 2, y)));
+//    }
+
+//    for(size_t x = 1; x < w_ + 3; ++x){
+//        SetWall(V(Point::Point(x, 1)), V(Point::Point(x, 0)));
+//        SetWall(V(Point::Point(x, h_ + 3)), V(Point::Point(x, h_ + 2)));
+//    }
+//}
+
 void Maze::GenerateExternalWalls(){
-    for(size_t y = 1; y < h_ + 3; ++y){
-        SetWall(V(Point::Point(1, y)), V(Point::Point(0, y)));
-        SetWall(V(Point::Point(w_ + 3, y)), V(Point::Point(w_ + 2, y)));
-    }
-
-    for(size_t x = 1; x < w_ + 3; ++x){
-        SetWall(V(Point::Point(x, 1)), V(Point::Point(x, 0)));
-        SetWall(V(Point::Point(x, h_ + 3)), V(Point::Point(x, h_ + 2)));
-    }
-}
-
-void Maze::GenerateInternalWalls(){
 
     for(size_t y = 2; y < h_ + 2; ++y){
         SetWall(V(Point::Point(2, y)), V(Point::Point(1, y)));
@@ -97,7 +100,7 @@ void Maze::GenerateMazeWalls(){
         setVerticalWalls(group[y],y);
         setHorisontalWalls(group[y],y);
     }
-    destroyWals(group[h_+1],h_+1);
+    destroyWalls(group[h_+1],h_+1);
 }
 
 void Maze::GenerateTeleport(){
@@ -109,6 +112,7 @@ void Maze::GenerateTeleport(){
             SetPass(V(Point::Point(x, 1)), V(Point::Point(x, 2)));
             SetWall(V(Point::Point(x - 1, 1)), V(Point::Point(x, 1)));
             SetWall(V(Point::Point(x + 1, 1)), V(Point::Point(x, 1)));
+            SetWall(V(Point::Point(x, 0)), V(Point::Point(x, 1)));
             teleports_.push_back(Point::Point(x,1));
             break;
         }
@@ -117,6 +121,7 @@ void Maze::GenerateTeleport(){
             SetPass(V(Point::Point(w_ + 2, y)), V(Point::Point(w_ + 1, y)));
             SetWall(V(Point::Point(w_ + 2, y - 1)), V(Point::Point(w_ + 2, y)));
             SetWall(V(Point::Point(w_ + 2, y + 1)), V(Point::Point(w_ + 2, y)));
+            SetWall(V(Point::Point(w_ + 3, y)), V(Point::Point(w_ + 2, y)));
             teleports_.push_back(Point::Point(w_ + 2,y));
             break;
         }
@@ -125,6 +130,7 @@ void Maze::GenerateTeleport(){
             SetPass(V(Point::Point(x, h_+2)), V(Point::Point(x, h_+1)));
             SetWall(V(Point::Point(x - 1, h_+2)), V(Point::Point(x, h_+2)));
             SetWall(V(Point::Point(x + 1, h_+2)), V(Point::Point(x, h_+2)));
+            SetWall(V(Point::Point(x, h_+3)), V(Point::Point(x, h_+2)));
             teleports_.push_back(Point::Point(x,h_+2));
             break;
         }
@@ -133,6 +139,7 @@ void Maze::GenerateTeleport(){
             SetPass(V(Point::Point(1, y)), V(Point::Point(2, y)));
             SetWall(V(Point::Point(1, y - 1)), V(Point::Point(1, y)));
             SetWall(V(Point::Point(1, y + 1)), V(Point::Point(1, y)));
+            SetWall(V(Point::Point(0, y)), V(Point::Point(1, y)));
             teleports_.push_back(Point::Point(1,y));
             break;
         };
@@ -163,13 +170,13 @@ void Maze::setVerticalWalls(std::vector<size_t> &group, size_t line){
             if(rand() % 2){
                 SetWall(V(Point::Point(x,line)), V(Point::Point(x + 1,line)));
             } else {
-                mergGroup(group, group[x], group[x + 1]);
+                mergeGroup(group, group[x], group[x + 1]);
             }
         }
     }
 }
 
-size_t Maze::mergGroup(std::vector<size_t> &group, size_t g1, size_t g2){
+size_t Maze::mergeGroup(std::vector<size_t> &group, size_t g1, size_t g2){
     size_t last = 0;
     for(size_t x = 2; x <  w_ + 2; ++x){
         if(group[x] == g2){
@@ -193,7 +200,7 @@ void Maze::setHorisontalWalls(std::vector<size_t> &group, size_t line){
     }
 }
 
-void Maze::destroyWals(std::vector<size_t> &group, size_t line){
+void Maze::destroyWalls(std::vector<size_t> &group, size_t line){
     for(size_t x = 2; x< w_ + 1; ++x){
         if(group[x] != group[x + 1]){
             SetPass(V(Point::Point(x, line)), V(Point::Point(x+ 1, line)));
@@ -221,6 +228,5 @@ void Maze::SetPass(size_t from, size_t to) {
     maze_[from][to] = true;
     maze_[to][from] = true;
 }
-
 }
 
