@@ -1,5 +1,5 @@
 #pragma once
-#include <qt5/QtWidgets/QWidget>
+#include <QWidget>
 #include <QPaintEvent>
 #include <map>
 #include "point.hpp"
